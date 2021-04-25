@@ -1,0 +1,13 @@
+[Unit]
+Description=Iron Gauntlet service
+DefaultDependencies=no
+
+[Service]
+ExecStart=/etc/iron-gauntlet/iron-gauntlet
+Restart=on-failure
+RestartSec=5s
+User=root
+TimeoutSec=5
+
+[Install]
+WantedBy=sysinit.target

@@ -1,23 +1,16 @@
 #!/bin/bash -e
 
-# Add or remove any custom installation steps here.
-# This file shows how to run commands inside chroot,
-# which is equivalent to the raspberry pi terminal in
-# most cases
+echo "Copying files..."
+mkdir ${ROOTFS_DIR}/etc/iron-gauntlet
+cp /bootstrap-resources/src/* ${ROOTFS_DIR}/etc/iron-gauntlet/
+cp /bootstrap-resources/iron-gauntlet.service ${ROOTFS_DIR}/etc/systemd/system/iron-gauntlet.service
 
-# Example: Install Docker using default installation script
-# and perform post-install steps to not require
-# sudo for docker commands
-echo "Installing docker..."
+echo "Installing pip dependencies..."
 on_chroot << EOF
-curl -sSL get.docker.com | sh
-usermod -aG docker ${FIRST_USER_NAME}
+pip3 install -r /etc/iron-gauntlet/requirements.txt
 EOF
 
-# Example: Install docker-compose
-echo "Installing docker-compose..."
+echo "Registering service to run at boot..."
 on_chroot << EOF
-pip3 install docker-compose
-# Ensure it's in PATH
-ln -sfn /home/${FIRST_USER_NAME}/.local/bin/docker-compose /usr/bin/docker-compose
+systemctl enable iron-gauntlet
 EOF

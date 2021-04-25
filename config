@@ -1,11 +1,15 @@
 # The directory this config file lives in
 CONFIG_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
-export IMG_NAME="${IMAGE_NAME:=pi-bootstrap}"
-export TARGET_HOSTNAME="${HOSTNAME:=pi-bootstrap}"
+export IMG_NAME="${IMAGE_NAME:=iron-gauntlet}"
+export TARGET_HOSTNAME="${HOSTNAME:=iron-gauntlet}"
 export FIRST_USER_NAME=${FIRST_USER:=pi}
-export FIRST_USER_PASS=${FIRST_USERPASS:=rasberry}
+export FIRST_USER_PASS=${FIRST_USERPASS:=raspberry}
 export ENABLE_SSH=${SSH_ENABLED:=1}
+
+export WPA_SSID=${WPA_SSID:=""}
+export WPA_PASSPHRASE=${WPA_PASSPHRASE:=""}
+export WPA_COUNTRY=${WPA_COUNTRY:=""}
 
 export LOCALE_DEFAULT=${LOCALE:=$(localectl status | sed -n -e 's/^.*LANG=//p')}
 export KEYBOARD_KEYMAP=${KEYMAP:=$(localectl status | sed -n -e 's/^.*X11 Layout: //p')}
@@ -15,7 +19,7 @@ export TIMEZONE_DEFAULT=${TIMEZONE:=$(cat /etc/timezone)}
 # Add additional mounts containing custom steps and files it needs
 export DOCKER_ADDL_MOUNTS=(
     "${CONFIG_DIR}/bootstrap:/pi-gen/stage2/90-bootstrap:ro"
-    "${CONFIG_DIR}/bootstrap-resources:/bootstrap-resources:ro")
+    "${CONFIG_DIR}:/bootstrap-resources:ro")
 
 # We only want to build a lite image
 export STAGE_LIST="stage0 stage1 stage2"

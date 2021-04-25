@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -e
+
+export SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+# Ensure we're running in this scripts director
+pushd $SCRIPT_DIR
+trap "popd; exit" INT TERM EXIT
+
+# Start fauxmo in verbose mode
+fauxmo -c ${SCRIPT_DIR}/IronGauntlet.json -v
